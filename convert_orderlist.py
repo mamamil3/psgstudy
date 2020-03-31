@@ -6,9 +6,15 @@ Created on Tue Mar 31 01:48:03 2020
 """
 import pandas as pd
 import sys
+import os
 
-input_file = sys.argv[1]
-output_file = sys.argv[2]
+path = "./"
+file_list = os.listdir(path)
+file_list_xlsx = [file for file in file_list if file.startswith('스마트스토어_선택주문조회_')]
+
+input_file = file_list_xlsx[0]
+output_file = 'OnlinePurchase.xlsx'
+print(input_file)
 
 input_data_frame = pd.read_excel(input_file, '발주발송관리', index_col=None)
 data_frame_column_by_name = input_data_frame.loc[:, ['판매자 상품코드','수량','구매자명',
