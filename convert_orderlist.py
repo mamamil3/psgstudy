@@ -5,7 +5,6 @@ Created on Tue Mar 31 01:48:03 2020
 @author: yomer
 """
 import pandas as pd
-import sys
 import os
 
 path = "./"
@@ -16,7 +15,11 @@ input_file = file_list_xlsx[0]
 output_file = 'OnlinePurchase.xlsx'
 print(input_file)
 
-input_data_frame = pd.read_excel(input_file, '발주발송관리', index_col=None)
+#엑셀파일에서 불러올 때 2번째 행부터 읽어오도록 지정 header=1
+#특정 컬럼의 데이터타입 지정(엑셀 쓰기 할때 숫자앞에 0삭제되는거 방지, 큰숫자 표시 ) dtype
+input_data_frame = pd.read_excel(input_file, '발주발송관리', header=1, dtype={'우편번호':str, '상품주문번호':int }, index_col=None)
+
+
 data_frame_column_by_name = input_data_frame.loc[:, ['판매자 상품코드','수량','구매자명',
                                                      '구매자연락처', '수취인명', '수취인연락처1', 
                                                      '수취인연락처2', '우편번호', '배송지', '배송메세지',
