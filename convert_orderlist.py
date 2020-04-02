@@ -4,6 +4,7 @@ Created on Tue Mar 31 01:48:03 2020
 
 @author: yomer
 """
+import sys
 import pandas as pd
 import os
 
@@ -11,13 +12,17 @@ path = "./"
 file_list = os.listdir(path)
 file_list_xlsx = [file for file in file_list if file.startswith('스마트스토어_선택주문조회_')]
 
+if len(file_list_xlsx) < 1:
+    print("파일이 존재하지 않습니다.")
+    sys.exit(1)
+    
 input_file = file_list_xlsx[0]
 output_file = 'OnlinePurchase.xlsx'
 print(input_file)
 
 #엑셀파일에서 불러올 때 2번째 행부터 읽어오도록 지정 header=1
-#특정 컬럼의 데이터타입 지정(엑셀 쓰기 할때 숫자앞에 0삭제되는거 방지, 큰숫자 표시 ) dtype
-input_data_frame = pd.read_excel(input_file, '발주발송관리', header=1, dtype={'우편번호':str, '상품주문번호':int }, index_col=None)
+#특정 컬럼의 데이터타입 지정(엑셀 쓰기 할때 숫자앞에 0삭제되는거 방지, 큰숫자 표시 ) dtype=텍스트
+input_data_frame = pd.read_excel(input_file, '발주발송관리', header=1, dtype={'우편번호':str, '상품주문번호':str }, index_col=None)
 
 
 data_frame_column_by_name = input_data_frame.loc[:, ['판매자 상품코드','수량','구매자명',
