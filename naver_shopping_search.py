@@ -6,6 +6,7 @@ Created on Fri Apr 10 02:08:29 2020
 """
 # 네이버 검색 Open API 예제 
 #import os
+import pandas as pd
 import sys
 import urllib.request
 from bs4 import BeautifulSoup
@@ -13,6 +14,14 @@ from bs4 import BeautifulSoup
 txtpath = sys.argv[1]
 shopname = sys.argv[2]
 
+#엑셀 파일에 기록하기
+def makeexel(items,path):
+    result=[]
+    for item in items:
+        result.append([item.title.get_text()]+[item.mallname.get_text()])
+    table = pd.DataFrame(result,columns=('title','mallname'))
+    table.to_csv(path,encoding="cp949",mode="w",index=True)
+    
 # 텍스트파일에서 키 아이디, 시크릿 읽어오기
 keyfile = open(txtpath,'r')
 lines = keyfile.readlines()
@@ -43,21 +52,18 @@ if(rescode==200):
     
     xmlsoup = BeautifulSoup(response_body,'html.parser')
     items = xmlsoup.find_all('item')
-    #print(items)
+
     itemcount = 1
     for item in items:
         if item.mallname.get_text() == shopname:
             print('<--------------------------')
             print('제목 : ' + item.title.get_text())
-            print('링크 : ' + item.mallname.get_text())
+            print('샵명 : ' + item.mallname.get_text())
             print('순위 : ' + str(itemcount))
             print('-------------------------->\n')
-            sys.exit()
+            #sys.exit()
         itemcount += 1
- 
-    # xmlfile = open("searchresult.xml",'w')
-    # xmlfile.write(response_body.decode('utf-8'))
-    # xmlfile.close()
+    makeexel(items, "C:/Users/yomer/Documents/파이썬스터디/navershoping_keywordcount.csv")
 else:
     print("Error Code:" + rescode)
 
