@@ -36,34 +36,48 @@ client_secret = idsecret[1]
 
 #url = "https://openapi.naver.com/v1/search/blog?query=" + encText # json 결과
 #url = "https://openapi.naver.com/v1/search/shop.xml?query=" + encText # xml 결과
-url = "https://openapi.naver.com/v1/search/shop.xml"
-option = "&display=40"    
-query = "?query="+urllib.parse.quote(input("검색어 입력:"))
-url_query = url + query + option
+display = 100
+start = 1
+keyword = input("검색어 입력:")
 
-request = urllib.request.Request(url_query)
-request.add_header("X-Naver-Client-Id",client_id)
-request.add_header("X-Naver-Client-Secret",client_secret)
-response = urllib.request.urlopen(request)
-rescode = response.getcode()
-if(rescode==200):
-    response_body = response.read()
-    #print(response_body.decode('utf-8'))
+def searchwb(display,start,keyword):
+    url = "https://openapi.naver.com/v1/search/shop.xml"
+    option = "&display="+str(display)+"&start="+str(start)    
+    query = "?query="+urllib.parse.quote(keyword)
+    url_query = url + query + option
     
-    xmlsoup = BeautifulSoup(response_body,'html.parser')
-    items = xmlsoup.find_all('item')
+    request = urllib.request.Request(url_query)
+    request.add_header("X-Naver-Client-Id",client_id)
+    request.add_header("X-Naver-Client-Secret",client_secret)
+    response = urllib.request.urlopen(request)
+    rescode = response.getcode()
+    if(rescode==200):
+        response_body = response.read()
+        #print(response_body.decode('utf-8'))
+        
+        xmlsoup = BeautifulSoup(response_body,'html.parser')
+        items = xmlsoup.find_all('item')
+    
+        itemcount = start
+        for item in items:
+            if item.mallname.get_text() == shopname:
+                print('<--------------------------')
+                print('제목 : ' + item.title.get_text())
+                print('샵명 : ' + item.mallname.get_text())
+                print('순위 : ' + str(itemcount))
+                print('-------------------------->\n')
+                #sys.exit()
+            itemcount += 1
+        #makeexel(items, "C:/Users/yomer/Documents/파이썬스터디/navershoping_keywordcount.csv")
+    else:
+        print("Error Code:" + rescode)
+    
+    
+for i in range(0,10):
+    print(start)
+    searchwb(display,start,keyword)
+    if start < 1000:
+        start = start + display
+    
 
-    itemcount = 1
-    for item in items:
-        if item.mallname.get_text() == shopname:
-            print('<--------------------------')
-            print('제목 : ' + item.title.get_text())
-            print('샵명 : ' + item.mallname.get_text())
-            print('순위 : ' + str(itemcount))
-            print('-------------------------->\n')
-            #sys.exit()
-        itemcount += 1
-    makeexel(items, "C:/Users/yomer/Documents/파이썬스터디/navershoping_keywordcount.csv")
-else:
-    print("Error Code:" + rescode)
 
