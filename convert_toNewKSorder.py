@@ -7,6 +7,7 @@ Created on Tue Mar 31 01:48:03 2020
 import sys
 import pandas as pd
 import os
+import datetime
 
 path = "./"
 file_list = os.listdir(path)
@@ -15,9 +16,11 @@ file_list_xlsx = [file for file in file_list if file.startswith('스마트스토
 if len(file_list_xlsx) < 1:
     print("파일이 존재하지 않습니다.")
     sys.exit(1)
-    
+
+dt = datetime.datetime.now()
+
 input_file = file_list_xlsx[0]
-output_file = 'excel_order.xls'
+output_file = 'excel_order_' + dt.strftime("%Y%m%d") + '.xls'
 print(input_file)
 
 #엑셀파일에서 불러올 때 2번째 행부터 읽어오도록 지정 header=1
