@@ -28,8 +28,8 @@ print(input_file)
 input_data_frame = pd.read_excel(input_file, '발주발송관리', header=1, dtype={'우편번호':str, '상품주문번호':str }, index_col=None)
 
 
-data_frame_column_by_name = input_data_frame.loc[:, ['판매자 상품코드','수량','구매자명',
-                                                     '구매자연락처', '수취인명', '수취인연락처1', 
+data_frame_column_by_name = input_data_frame.loc[:, ['판매자 상품코드','수량','옵션정보',
+                                                     '옵션관리코드', '수취인명', '수취인연락처1', 
                                                      '수취인연락처2', '우편번호', '배송지', '배송메세지',
                                                      '판매채널', '상품주문번호', '옵션정보']]
 data_frame_column_by_name.columns = ['상품번호(*)', '수량(*)', '선택옵션1', 
