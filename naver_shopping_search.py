@@ -15,9 +15,6 @@ txtpath = sys.argv[1]
 shopname = sys.argv[2]
 
 
-
-
-
     
 # 텍스트파일에서 키 아이디, 시크릿 읽어오기
 keyfile = open(txtpath,'r')
@@ -74,17 +71,17 @@ def searchwb(display,start,keyword,page_count):
         print("Error Code:" + rescode)
     
 #api 검색 최대치 1000건 이므로 1회한도 100건씩 10번 읽어오기!    
-for i in range(0,25):
+for i in range(0,10):
     
     print(start)
     #검색어로 상품찾기 함수 호출
-    searchwb(display,start,keyword,i)
-    
-    if start < 500:
-        start = start + display
+    searchwb(display,start,keyword,0)
+    #start위치 인덱스를 100더해서 이동
+    start = start + display
 
 #엑셀 파일에 기록하기
 table = pd.DataFrame(result,columns=('title','mallname','ranking','page_count'))
 table.to_csv(path,encoding="cp949",mode="w",index=True)    
 
-
+# '쎈딜'같은 카테고리 없는 광고상품은 순위에 카운트되지 않는다.
+# 실제 페이지는 40개 단위임, 코드상의 페이지는 100개 단위
