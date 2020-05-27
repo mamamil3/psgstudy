@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon May 25 23:23:01 2020
+Created on Thu May 28 00:20:57 2020
 
 @author: yomer
 """
@@ -12,10 +12,9 @@ output_file = sys.argv[2]
 
 data_frame = pd.read_excel(input_file, 'january_2013', index_col=None)
 
-data_frame_value_matches_pattern = data_frame[data_frame['Customer Name'].str.startswith("J")]
+data_frame_column_by_index = data_frame.iloc[:, [1, 4]]
 
 writer = pd.ExcelWriter(output_file)
-data_frame_value_matches_pattern.to_excel(writer, sheet_name='jan_13_output', index=False)
+data_frame_column_by_index.to_excel(writer, sheet_name='jan_13_output', index=False)
 writer.save()
-
 
