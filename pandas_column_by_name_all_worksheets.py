@@ -10,16 +10,19 @@ import sys
 input_file = sys.argv[1]
 output_file = sys.argv[2]
 
-# 모든 시트 읽기 sheet_name=None
-data_frame = pd.read_excel(input_file, sheet_name = None, index_col=None)
+my_sheets = [0,1]
+threshold = 1900.0
 
-column_output = []
+#index로 워크시트 선택
+data_frame = pd.read_excel(input_file, sheet_name = my_sheets, index_col=None)
+
+row_list = []
 
 for worksheet_name, data in data_frame.items():
-    column_output.append(data.loc[:, ['Customer Name', 'Sale Amount']])
-selected_columns = pd.concat(column_output, axis=0, ignore_index=True)
+    row_list.append(data[data['Sale Amount'].astype(float) >threshold])
+filtered_rows = pd.concat(row_list, axis=0, ignore_index=True)
 
 writer = pd.ExcelWriter(output_file)
-selected_columns.to_excel(writer, sheet_name='selected_columns_all_worksheets', index=False)
+filtered_rows.to_excel(writer, sheet_name='set_of_worksheets', index=False)
 writer.save()
 
