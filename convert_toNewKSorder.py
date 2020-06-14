@@ -9,7 +9,10 @@ import pandas as pd
 import os
 import datetime
 
-path = "./"
+#path = "./"
+#엑셀파일이 있는 폴더경로 지정
+path = sys.argv[1]
+
 file_list = os.listdir(path)
 file_list_xlsx = [file for file in file_list if file.startswith('스마트스토어_선택주문조회_')]
 
@@ -19,9 +22,9 @@ if len(file_list_xlsx) < 1:
 
 dt = datetime.datetime.now()
 
-input_file = file_list_xlsx[0]
-output_file = 'excel_order_' + dt.strftime("%Y%m%d") + '.xls'
-print(input_file)
+input_file = path + '/' + file_list_xlsx[0]
+output_file = path + '/excel_order_' + dt.strftime("%Y%m%d") + '.xls'
+print('input_file: ' + input_file)
 
 #엑셀파일에서 불러올 때 2번째 행부터 읽어오도록 지정 header=1
 #특정 컬럼의 데이터타입 지정(엑셀 쓰기 할때 숫자앞에 0삭제되는거 방지, 큰숫자 표시 ) dtype=텍스트
@@ -40,4 +43,5 @@ data_frame_column_by_name.columns = ['상품번호(*)', '수량(*)', '선택옵�
 writer = pd.ExcelWriter(output_file)
 data_frame_column_by_name.to_excel(writer, sheet_name='Sheet1', index=False)
 writer.save()
+print('output_file: ' + output_file)
 
