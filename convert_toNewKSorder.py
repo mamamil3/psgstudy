@@ -11,7 +11,8 @@ import datetime
 
 #path = "./"
 #엑셀파일이 있는 폴더경로 지정
-path = sys.argv[1]
+#path = sys.argv[1]
+path = input()
 
 file_list = os.listdir(path)
 file_list_xlsx = [file for file in file_list if file.startswith('스마트스토어_선택주문조회_')]

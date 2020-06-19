@@ -4,7 +4,7 @@ Created on Tue Mar 31 01:48:03 2020
 
 @author: yomer
 """
-import sys
+#import sys
 import pandas as pd
 import datetime
 
@@ -12,7 +12,8 @@ import datetime
 # 오늘 날짜
 dt = datetime.datetime.now()
 
-input_file = sys.argv[1]
+#파일명 입력받기
+input_file = input() 
 output_file = 'ssInvoiceList_' + dt.strftime("%Y%m%d") + '.xls'
 print('input_file: ' + input_file)
 
@@ -26,5 +27,4 @@ data_frame_column_by_name['배송방법'] = '택배,등기,소포'
 writer = pd.ExcelWriter(output_file)
 data_frame_column_by_name.to_excel(writer, sheet_name='Sheet1', index=False)
 writer.save()
-print('output_file: ' + output_file)
 
