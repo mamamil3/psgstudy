@@ -41,8 +41,15 @@ data_frame_column_by_name.columns = ['상품번호(*)', '수량(*)', '선택옵�
                                      '수취인전화', '우편번호(*)', '수취 주소(*)', '배송요청사항', 
                                      '주문관리메모', '주문관리메모2', '옵션내용']
 
+# 파이썬 파일과 같은 폴더내에 있는 ks일괄등록 양식 읽어오기 
+input_file2 = 'C:\\Users\yomer\\Documents\\쇼핑몰\\케이셀러\\주문서일괄등록엑셀파일\\excel_order.xls'
+excel_order_data_frame = pd.read_excel(input_file2, 'Sheet1', header=2, index_col=None)
+# dataframe 값 합치기
+#excel_order_data_frame.append(data_frame_column_by_name, ignore_index=True)
+
+
 writer = pd.ExcelWriter(output_file)
-data_frame_column_by_name.to_excel(writer, sheet_name='Sheet1', index=False)
+excel_order_data_frame.to_excel(writer, sheet_name='Sheet1', index=False)
 writer.save()
 print('output_file: ' + output_file)
 
