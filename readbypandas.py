@@ -12,8 +12,8 @@ Created on Mon Jul 20 23:29:21 2020
 # print(x[1:5])
 import pandas_datareader.data as web
 import datetime
-start = datetime.datetime(2016, 2, 19)
-end = datetime.datetime(2016, 3, 4)
+start = datetime.datetime(2020, 2, 19)
+end = datetime.datetime(2020, 3, 4)
 
 df = web.DataReader("078930.KS", "yahoo", start, end)
 
